@@ -65,6 +65,8 @@ thresh = 1800
 screen = pygame.display.set_mode((winwidth, winheight))
 clock = pygame.time.Clock()
 pygame.init()
+pygame.font.init()
+fontA = pygame.font.SysFont('Arial', 15)
 pygame.display.set_caption("Triangles v2")
 pygame.event.set_allowed([pygame.QUIT, pygame.KEYUP, pygame.KEYDOWN])
 
@@ -97,6 +99,7 @@ while not quit:
         node.reflect()
         node.draw()
 
+    
     for i, node1 in enumerate(nodes):
         x1, y1 = node1.x, node1.y
         for node2 in nodes[i + 1 :]:
@@ -108,7 +111,9 @@ while not quit:
                 )
 
     clock.tick(60)
+    fpsStat = str(round(clock.get_fps(), 2))
+    screenText = fontA.render(fpsStat + " FPS", False,(255, 255, 255))
+    screen.blit(screenText, (0,0))
     pygame.display.flip()
-    print(clock.get_fps())
 
 pygame.quit()
