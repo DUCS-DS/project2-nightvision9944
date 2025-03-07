@@ -14,25 +14,6 @@ def blue(scale=0.8):
     num = int(scale * 255)
     return (num // 2, 2 * num // 3, num)
 
-def rMaxLength(num):
-    maxDigits = 0
-    for n in num:
-        digCount = rGetLength(n)
-        if digCount > maxDigits:
-            maxDigits = digCount
-    return maxDigits
-
-def rGetLength(val):
-    if val == 0:
-        return 1
-    
-    digits = 0
-    while val != 0:
-        digits += 1
-        val = int(val/10)
-    return digits
-
-def radix_sort(numbers):
     buckets = []
     for i in range(10):
         buckets.append([])
@@ -100,7 +81,8 @@ class Node:
         self.dx = math.sin(self.angle) * self.speed
         self.dy = math.cos(self.angle) * self.speed
 
-
+def getx(node):
+    return node.x
 winwidth = 800  # width of window
 winheight = 600  # height of window
 background = (5, 5, 5)  # this is close to black
@@ -128,13 +110,6 @@ for i in range(num_nodes):
     angle = radians(random.randint(0, 359))
     nodes.append(Node(x, y, speed, angle))
 
-#sort the nodes' x coordinates
-testListA = []
-for node in nodes:
-    testListA.append(node.x)
-p = sorted(testListA)
-print(p)
-
 # the game loop: (press q to quit)
 quit = False
 while not quit:
@@ -155,11 +130,11 @@ while not quit:
         node.reflect()
         node.draw()
 
-
+    nodes = sorted(nodes, key=getx)
 
     for i, node1 in enumerate(nodes):
         x1, y1 = node1.x, node1.y
-        for node2 in nodes[i + 1 :]:
+        for node2 in nodes[i + 1: i + 20]:
             x2, y2 = node2.x, node2.y
             d_squared = (x1 - x2) ** 2 + (y1 - y2) ** 2
             if d_squared < thresh:
